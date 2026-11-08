@@ -1,0 +1,748 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SpeakTrip – English for Real Travel Situations | AI Speech Check</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', 'Arial', sans-serif;
+            background: #FFFFFF;
+            color: #1F2937;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600');
+            background-size: cover;
+            background-position: center;
+            min-height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            border-radius: 0 0 40px 40px;
+        }
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: #2563EB;
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            background: #1D4ED8;
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        .btn-outline:hover {
+            background: white;
+            color: #2563EB;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1F2937;
+        }
+        .about-box {
+            background: #F3F4F6;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .simple-explanation {
+            background: #DBEAFE;
+            border-radius: 16px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            border-left: 4px solid #2563EB;
+        }
+        .missions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .mission-card {
+            background: #F9FAFB;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: 0.2s;
+            border: 1px solid #E5E7EB;
+            cursor: pointer;
+        }
+        .mission-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        .card-img {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+        }
+        .card-content {
+            padding: 1.5rem;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .card-desc {
+            color: #6B7280;
+            margin-bottom: 1rem;
+        }
+        .mission-detail {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            margin-top: 1rem;
+        }
+        .back-btn {
+            background: #F3F4F6;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .phrases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+        .phrase-item {
+            background: #F9FAFB;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: 1px solid #E5E7EB;
+        }
+        .phrase-english {
+            font-weight: 600;
+        }
+        .phrase-translation {
+            color: #6B7280;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        .phrase-translation.show {
+            display: block;
+        }
+        .audio-practice-item {
+            background: #F3F4F6;
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .btn-small {
+            background: #2563EB;
+            color: white;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.2rem;
+            font-size: 0.8rem;
+        }
+        .ai-feedback-box {
+            background: #EFF6FF;
+            border-radius: 16px;
+            padding: 1rem;
+            margin-top: 0.8rem;
+            border-left: 4px solid #2563EB;
+        }
+        .ai-badge {
+            background: #10B981;
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        .self-eval {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        hr {
+            margin: 1.5rem 0;
+        }
+        footer {
+            background: #1F2937;
+            color: #9CA3AF;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        .transport-img {
+            width: 100%;
+            border-radius: 16px;
+            margin: 1rem 0;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .emergency-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2rem; }
+            .container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="hero-content">
+        <h1>SpeakTrip – English for Real Travel Situations</h1>
+        <p>Practice real-life conversations and improve your speaking confidence anywhere in the world.</p>
+        <div class="btn-group">
+            <a href="#missions" class="btn">Start Learning</a>
+            <a href="#missions" class="btn btn-outline">Try a Mission</a>
+        </div>
+    </div>
+</div>
+
+<section id="about">
+    <div class="container">
+        <div class="about-box">
+            <h2 class="section-title">About SpeakTrip</h2>
+            <p style="font-size: 1.1rem;">This platform helps learners practice English for real-life situations such as hotels, restaurants, transport, and emergencies. Each lesson includes listening, AI-powered speaking practice with real feedback, and self-evaluation tasks.</p>
+            <div class="simple-explanation">
+                <strong>✈️ Simple Guide for Tourists:</strong><br>
+                • Click on any mission (Restaurant, Hotel, Transport, Emergency, Shopping)<br>
+                • 📖 Learn useful English phrases<br>
+                • 🎙️ Click "Start AI Check" and speak into your microphone<br>
+                • 🤖 AI will listen, tell you if your pronunciation is good, and give you tips<br>
+                • 💪 Practice as many times as you want until you feel confident!
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="missions">
+    <div class="container">
+        <h2 class="section-title">🎯 Choose Your Mission</h2>
+        <div class="missions-grid" id="missionsGrid"></div>
+    </div>
+</section>
+
+<div id="missionDetailContainer" style="display: none;"></div>
+
+<footer>
+    <p>SpeakTrip – English for Real Travel Situations | AI Speech Recognition for Real Feedback</p>
+</footer>
+
+<script>
+    const missions = {
+        emergency: {
+            id: "emergency", title: "Emergency – Asking for Help", level: "Intermediate",
+            img: "https://images.unsplash.com/photo-1582139323113-6bdf7c3e6b1f?w=600",
+            description: "Learn how to ask for help in urgent situations",
+            simpleNote: "🆘 In an emergency, speak clearly. Say 'Help!' or 'I need a doctor!' Practice these phrases so you're ready.",
+            phrases: {
+                basic: ["Hello", "Good morning", "Good afternoon", "Good evening", "Goodbye", "Please", "Thank you", "You're welcome", "Excuse me", "I'm sorry"],
+                emergency: ["Help", "I need a doctor", "I've lost my passport", "Where is the nearest hospital", "I need to call the police", "My wallet has been stolen", "Can you help me find my way", "I feel unwell", "Is there a pharmacy nearby", "I need emergency assistance"]
+            },
+            translations: {
+                "Help": "Помощь / Ayuda", "I need a doctor": "Мне нужен врач / Necesito un médico",
+                "I've lost my passport": "Я потерял паспорт / Perdí mi pasaporte", 
+                "Where is the nearest hospital": "Где ближайшая больница? / ¿Dónde está el hospital?",
+                "I need to call the police": "Мне нужно вызвать полицию / Necesito llamar a la policía", 
+                "My wallet has been stolen": "Мой кошелек украли / Me robaron la cartera",
+                "Can you help me find my way": "Вы можете помочь мне найти дорогу? / ¿Puedes ayudarme?", 
+                "I feel unwell": "Я плохо себя чувствую / Me siento mal",
+                "Is there a pharmacy nearby": "Есть ли аптека поблизости? / ¿Hay una farmacia cerca?", 
+                "I need emergency assistance": "Мне нужна экстренная помощь / Necesito asistencia de emergencia",
+                "Hello": "Здравствуйте / Hola", "Good morning": "Доброе утро / Buenos días", 
+                "Good afternoon": "Добрый день / Buenas tardes", "Good evening": "Добрый вечер / Buenas noches", 
+                "Goodbye": "До свидания / Adiós", "Please": "Пожалуйста / Por favor",
+                "Thank you": "Спасибо / Gracias", "You're welcome": "Пожалуйста / De nada", 
+                "Excuse me": "Извините / Disculpe", "I'm sorry": "Извиняюсь / Lo siento"
+            },
+            mcqQuestion: "What should you say if someone is very sick?",
+            mcqOptions: ["I need a doctor", "Where is the menu", "I want a ticket"],
+            mcqCorrect: "I need a doctor",
+            rolePlayTask: "You are on the street. A person near you suddenly feels very sick. Ask someone for help and explain the situation.",
+            scenarioTask: "You are in a foreign country. Your friend was hit by a bicycle. You need to: ask for help, call an ambulance, explain what happened."
+        },
+        restaurant: {
+            id: "restaurant", title: "Restaurant", level: "Beginner",
+            img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600",
+            description: "Practice ordering food and communicating with staff",
+            simpleNote: "🍽️ Use these phrases when eating out: 'Can I see the menu?' 'I'd like to order' 'Can I have the bill please'",
+            phrasesList: ["Can I see the menu, please", "I'd like to order", "Can I have the bill, please", "What is today's special", "Is this dish vegetarian", "I have a food allergy", "Could you make it less spicy", "Can I get this to go", "I'd like a table for two", "Do you have gluten-free options"],
+            rolePlayTask: "You are in a restaurant. Order food and ask about the menu.",
+            scenarioTask: "You are allergic to nuts. Explain it to the waiter and ask for safe food."
+        },
+        hotel: {
+            id: "hotel", title: "Hotel", level: "Beginner",
+            img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600",
+            description: "Check in, ask questions, and solve problems",
+            simpleNote: "🏨 At the hotel: Say 'I have a reservation' 'Check-in please' 'What time is checkout?'",
+            phrasesList: ["I have a reservation", "Check-in please", "What time is checkout", "Can I have a wake-up call", "Is breakfast included", "The air conditioning isn't working", "Can I get extra towels", "I'd like to extend my stay", "Do you have a gym", "Call a taxi please"]
+        },
+        transport: {
+            id: "transport", title: "Transport", level: "Intermediate",
+            img: "https://images.unsplash.com/photo-1532104868074-3c5a51a7d3ea?w=600",
+            description: "Ask for directions and buy tickets",
+            simpleNote: "🚌 Taking buses/trains? Use: 'Where is the bus stop?' 'How much is a ticket?' 'Which train goes to the city center?'",
+            phrasesList: ["Where is the bus stop", "How much is a ticket", "Which train goes to the city center", "Does this bus go to the airport", "I need a one-way ticket", "What time is the next departure", "Where do I change trains", "Is this seat taken", "How long does the journey take", "Can you tell me when to get off"],
+            transportImage: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600"
+        },
+        shopping: {
+            id: "shopping", title: "Shopping", level: "Beginner",
+            img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600",
+            description: "Communicate in stores and markets",
+            simpleNote: "🛍️ Shopping phrases: 'How much is this?' 'Do you have a larger size?' 'Can I try this on?'",
+            phrasesList: ["How much is this", "Do you have this in a larger size", "Can I try this on", "I'm just looking", "Do you accept credit cards", "Can I get a discount", "Where is the fitting room", "I'd like to return this", "Do you have a receipt", "Is there a warranty"]
+        }
+    };
+
+    let currentMission = null;
+
+    function initAIRecognition() {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            alert("Your browser doesn't support speech recognition. Please use Chrome, Edge, or Safari.");
+            return null;
+        }
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognitionInstance = new SpeechRecognition();
+        recognitionInstance.continuous = false;
+        recognitionInstance.interimResults = false;
+        recognitionInstance.lang = 'en-US';
+        return recognitionInstance;
+    }
+
+    function getAIFeedback(spokenText, expectedPhrase) {
+        const spoken = spokenText.toLowerCase().trim();
+        const expected = expectedPhrase.toLowerCase().trim();
+        
+        const spokenWords = spoken.split(/\s+/);
+        const expectedWords = expected.split(/\s+/);
+        
+        let matchedWords = 0;
+        expectedWords.forEach(word => {
+            if (spoken.includes(word)) matchedWords++;
+        });
+        
+        const accuracy = Math.round((matchedWords / expectedWords.length) * 100);
+        
+        let feedback = "";
+        let suggestion = "";
+        
+        if (accuracy >= 90) {
+            feedback = "Excellent! 🎉 Your pronunciation is very clear! Tourists will understand you perfectly.";
+            suggestion = "You sound like a native speaker. Keep up the great work!";
+        } else if (accuracy >= 70) {
+            feedback = "Good job! 👍 You're on the right track.";
+            suggestion = "Try stressing the main words more clearly.";
+        } else if (accuracy >= 50) {
+            feedback = "Not bad! 💪 Keep practicing.";
+            suggestion = `Focus on saying "${expectedWords.join(' ')}" more slowly.`;
+        } else {
+            feedback = "Let's try again! 📚 I'll help you improve.";
+            suggestion = `Listen to the example and repeat: "${expectedPhrase}"`;
+        }
+        
+        let specificFeedback = "";
+        if (accuracy < 70 && expectedWords.length > 1) {
+            const missingWords = expectedWords.filter(word => !spoken.includes(word));
+            if (missingWords.length > 0) {
+                specificFeedback = ` Pay attention to: "${missingWords.join(', ')}".`;
+            }
+        }
+        
+        return {
+            recognized: spokenText,
+            expected: expectedPhrase,
+            accuracy: accuracy,
+            feedback: feedback,
+            suggestion: suggestion + specificFeedback,
+            color: accuracy >= 90 ? "#10B981" : (accuracy >= 70 ? "#F59E0B" : "#EF4444")
+        };
+    }
+
+    function renderMissionCards() {
+        const grid = document.getElementById("missionsGrid");
+        grid.innerHTML = "";
+        const missionKeys = ["emergency", "restaurant", "hotel", "transport", "shopping"];
+        missionKeys.forEach(key => {
+            const m = missions[key];
+            const card = document.createElement("div");
+            card.className = "mission-card";
+            card.onclick = () => openMission(key);
+            card.innerHTML = `
+                <div class="card-img" style="background-image: url('${m.img}');"></div>
+                <div class="card-content">
+                    <div class="card-title">${m.title}</div>
+                    <div class="card-desc">${m.description}</div>
+                    <button class="btn">Open Mission</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    window.openMission = function(missionId) {
+        currentMission = missionId;
+        document.getElementById("missions").style.display = "none";
+        document.getElementById("missionDetailContainer").style.display = "block";
+        renderMissionDetail(missionId);
+    };
+
+    function renderMissionDetail(missionId) {
+        const m = missions[missionId];
+        const container = document.getElementById("missionDetailContainer");
+        
+        // Simple explanation for tourists
+        const simpleNoteHtml = `<div class="simple-explanation" style="margin-bottom:1rem;"><strong>✈️ Simple Guide:</strong> ${m.simpleNote || "Practice these phrases. Click 'Start AI Check' and speak. AI will tell you if you sound good!"}</div>`;
+        
+        if (missionId === "emergency") {
+            let phrasesHtml = `<div class="phrases-grid">`;
+            const allPhrases = [...m.phrases.basic, ...m.phrases.emergency];
+            allPhrases.forEach(phrase => {
+                phrasesHtml += `
+                    <div class="phrase-item">
+                        <div class="phrase-english">${phrase}</div>
+                        <div class="phrase-translation" data-phrase="${phrase}">${m.translations[phrase] || "Translation"}</div>
+                    </div>
+                `;
+            });
+            phrasesHtml += `</div><button id="showTranslationsBtn" class="btn" style="background:#6B7280; margin-bottom:1rem;">Show Meaning</button>`;
+            
+            let audioPracticeHtml = `<h3>🎤 AI-Powered Speaking Practice</h3>
+            <p style="margin-bottom:1rem; color:#6B7280;">Click "Start AI Check" → Speak the phrase → Get instant feedback!</p>
+            <div class="emergency-icon">🆘 🚑 🚨</div>`;
+            
+            const practicePhrases = m.phrases.emergency.slice(0, 6);
+            practicePhrases.forEach((phrase, idx) => {
+                audioPracticeHtml += `
+                    <div class="audio-practice-item" data-phrase="${phrase}">
+                        <strong>📢 ${phrase}</strong><br>
+                        <button class="btn-small play-audio" data-text="${phrase}">🔊 Listen</button>
+                        <button class="btn-small ai-record-btn" data-phrase="${phrase}" data-idx="${idx}">🎙️ Start AI Check</button>
+                        <div id="ai-feedback-${idx}" class="ai-feedback-box" style="display:none;">
+                            <div class="ai-badge">🤖 AI Analysis</div>
+                            <div id="ai-result-${idx}"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            const mcqHtml = `
+                <h3>📝 Multiple Choice</h3>
+                <p>${m.mcqQuestion}</p>
+                ${m.mcqOptions.map(opt => `<label style="display:block; margin:0.5rem 0;"><input type="radio" name="mcq" value="${opt}"> ${opt}</label>`).join('')}
+                <button id="checkMcqBtn" class="btn">Check Answer</button>
+                <div id="mcqFeedback" style="margin-top:0.5rem;"></div>
+            `;
+            
+            const rolePlayHtml = `
+                <h3>🎭 AI Role Play</h3>
+                <p>${m.rolePlayTask}</p>
+                <button id="aiRolePlayBtn" class="btn">🎙️ Start AI Speaking Check</button>
+                <div id="rolePlayFeedback" class="ai-feedback-box" style="display:none;">
+                    <div class="ai-badge">🤖 AI Analysis</div>
+                    <div id="rolePlayResult"></div>
+                </div>
+            `;
+            
+            const scenarioHtml = `
+                <h3>🌍 Real-Life Scenario (AI Check)</h3>
+                <p>${m.scenarioTask}</p>
+                <button id="aiScenarioBtn" class="btn">🎙️ Start AI Speaking Check</button>
+                <div id="scenarioFeedback" class="ai-feedback-box" style="display:none;">
+                    <div class="ai-badge">🤖 AI Analysis</div>
+                    <div id="scenarioResult"></div>
+                </div>
+            `;
+            
+            container.innerHTML = `
+                <div class="container">
+                    <button class="back-btn" id="backToMissionsBtn">← Back to Missions</button>
+                    <div class="mission-detail">
+                        <h1>🚨 ${m.title}</h1>
+                        <p>Level: ${m.level} | 🤖 AI Speech Recognition Active</p>
+                        ${simpleNoteHtml}
+                        <hr>
+                        <h2>📖 Phrases (No Translation)</h2>
+                        ${phrasesHtml}
+                        <hr>
+                        ${audioPracticeHtml}
+                        <hr>
+                        ${mcqHtml}
+                        <hr>
+                        ${rolePlayHtml}
+                        <hr>
+                        ${scenarioHtml}
+                        <hr>
+                        <h3>✅ Final Self-Evaluation</h3>
+                        <div class="self-eval">
+                            <div class="self-eval-item">Did I speak clearly? <select id="eval1"><option>Yes</option><option>Partly</option><option>No</option></select></div>
+                            <div class="self-eval-item">Did I use correct phrases? <select id="eval2"><option>Yes</option><option>Partly</option><option>No</option></select></div>
+                            <div class="self-eval-item">Did I feel confident? <select id="eval3"><option>Yes</option><option>Partly</option><option>No</option></select></div>
+                        </div>
+                        <button id="submitSelfEval" class="btn">Submit Evaluation</button>
+                        <div id="selfEvalResult"></div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById("showTranslationsBtn")?.addEventListener("click", () => {
+                document.querySelectorAll(".phrase-translation").forEach(el => el.classList.toggle("show"));
+            });
+            
+            document.querySelectorAll(".play-audio").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const text = btn.getAttribute("data-text");
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = "en-US";
+                    window.speechSynthesis.cancel();
+                    window.speechSynthesis.speak(utterance);
+                });
+            });
+            
+            practicePhrases.forEach((phrase, idx) => {
+                const recordBtn = document.querySelector(`.ai-record-btn[data-idx="${idx}"]`);
+                const feedbackDiv = document.getElementById(`ai-feedback-${idx}`);
+                const resultDiv = document.getElementById(`ai-result-${idx}`);
+                
+                recordBtn.addEventListener("click", () => {
+                    const recognitionInstance = initAIRecognition();
+                    if (!recognitionInstance) return;
+                    
+                    recordBtn.textContent = "🎙️ Listening... Speak now";
+                    recordBtn.disabled = true;
+                    
+                    recognitionInstance.onresult = (event) => {
+                        const spokenText = event.results[0][0].transcript;
+                        const aiResult = getAIFeedback(spokenText, phrase);
+                        
+                        resultDiv.innerHTML = `
+                            <strong>🎤 You said:</strong> "${spokenText}"<br>
+                            <strong>✅ Expected:</strong> "${phrase}"<br>
+                            <strong>📊 Accuracy:</strong> <span style="color:${aiResult.color}; font-weight:bold;">${aiResult.accuracy}%</span><br>
+                            <strong>💬 Feedback:</strong> ${aiResult.feedback}<br>
+                            <strong>📚 Tip for tourists:</strong> ${aiResult.suggestion}
+                        `;
+                        feedbackDiv.style.display = "block";
+                        recordBtn.textContent = "🎙️ Start AI Check";
+                        recordBtn.disabled = false;
+                    };
+                    
+                    recognitionInstance.onerror = () => {
+                        resultDiv.innerHTML = `<strong>⚠️ Could not hear you. Please check microphone and try again.</strong>`;
+                        feedbackDiv.style.display = "block";
+                        recordBtn.textContent = "🎙️ Start AI Check";
+                        recordBtn.disabled = false;
+                    };
+                    
+                    recognitionInstance.start();
+                });
+            });
+            
+            document.getElementById("checkMcqBtn")?.addEventListener("click", () => {
+                const selected = document.querySelector('input[name="mcq"]:checked');
+                if (selected && selected.value === m.mcqCorrect) {
+                    document.getElementById("mcqFeedback").innerHTML = "<span style='color:green;'>✅ Correct! In an emergency, say 'I need a doctor'</span>";
+                } else {
+                    document.getElementById("mcqFeedback").innerHTML = "<span style='color:red;'>❌ The correct answer is: " + m.mcqCorrect + " - Always ask for a doctor if someone is very sick!</span>";
+                }
+            });
+            
+            document.getElementById("aiRolePlayBtn")?.addEventListener("click", () => {
+                const recognitionInstance = initAIRecognition();
+                if (!recognitionInstance) return;
+                const btn = document.getElementById("aiRolePlayBtn");
+                btn.textContent = "🎙️ Listening... Speak your answer";
+                btn.disabled = true;
+                
+                recognitionInstance.onresult = (event) => {
+                    const spokenText = event.results[0][0].transcript;
+                    const expectedKeywords = ["help", "doctor", "sick", "emergency"];
+                    let matched = 0;
+                    expectedKeywords.forEach(kw => { if (spokenText.toLowerCase().includes(kw)) matched++; });
+                    const accuracy = Math.round((matched / expectedKeywords.length) * 100);
+                    
+                    let feedback = accuracy >= 70 ? "Great! You used key emergency phrases." : "Try using words like 'help', 'doctor', or 'emergency'.";
+                    
+                    document.getElementById("rolePlayResult").innerHTML = `
+                        <strong>🎤 You said:</strong> "${spokenText}"<br>
+                        <strong>📊 AI Score:</strong> ${accuracy}%<br>
+                        <strong>💬 Feedback:</strong> ${feedback}<br>
+                        <strong>📚 Tourist Tip:</strong> In emergencies, speak clearly and say "I need help" or "Call a doctor".
+                    `;
+                    document.getElementById("rolePlayFeedback").style.display = "block";
+                    btn.textContent = "🎙️ Start AI Speaking Check";
+                    btn.disabled = false;
+                };
+                recognitionInstance.start();
+            });
+            
+            document.getElementById("aiScenarioBtn")?.addEventListener("click", () => {
+                const recognitionInstance = initAIRecognition();
+                if (!recognitionInstance) return;
+                const btn = document.getElementById("aiScenarioBtn");
+                btn.textContent = "🎙️ Listening... Explain the situation";
+                btn.disabled = true;
+                
+                recognitionInstance.onresult = (event) => {
+                    const spokenText = event.results[0][0].transcript;
+                    const keywords = ["help", "ambulance", "hospital", "accident", "bicycle", "hit"];
+                    let matched = 0;
+                    keywords.forEach(kw => { if (spokenText.toLowerCase().includes(kw)) matched++; });
+                    const accuracy = Math.round((matched / keywords.length) * 100);
+                    
+                    document.getElementById("scenarioResult").innerHTML = `
+                        <strong>🎤 You said:</strong> "${spokenText}"<br>
+                        <strong>📊 AI Score:</strong> ${accuracy}%<br>
+                        <strong>💬 Feedback:</strong> ${accuracy >= 70 ? "Excellent! You clearly explained the emergency." : "Try to include: what happened, who is hurt, and what help you need."}<br>
+                        <strong>📚 Example:</strong> "My friend was hit by a bicycle. Please call an ambulance!"
+                    `;
+                    document.getElementById("scenarioFeedback").style.display = "block";
+                    btn.textContent = "🎙️ Start AI Speaking Check";
+                    btn.disabled = false;
+                };
+                recognitionInstance.start();
+            });
+            
+            document.getElementById("submitSelfEval")?.addEventListener("click", () => {
+                const eval1 = document.getElementById("eval1").value;
+                const eval2 = document.getElementById("eval2").value;
+                const eval3 = document.getElementById("eval3").value;
+                let resultMsg = "✅ Evaluation saved! ";
+                if (eval1 === "Yes" && eval2 === "Yes" && eval3 === "Yes") {
+                    resultMsg += "Excellent work! You're ready for real emergency situations! 🌟";
+                } else {
+                    resultMsg += "Keep practicing with the AI feedback. Every attempt makes you better prepared for your travels! 📚";
+                }
+                document.getElementById("selfEvalResult").innerHTML = `<div class="ai-feedback-box">${resultMsg}</div>`;
+            });
+            
+        } else if (missionId === "transport") {
+            // Transport mission with image
+            const phrasesList = m.phrasesList || [];
+            container.innerHTML = `
+                <div class="container">
+                    <button class="back-btn" id="backToMissionsBtn">← Back to Missions</button>
+                    <div class="mission-detail">
+                        <h1>🚌 ${m.title} Mission</h1>
+                        <p>Level: ${m.level} | 🤖 AI Speech Recognition</p>
+                        ${simpleNoteHtml}
+                        <img src="${m.transportImage}" alt="Transport" class="transport-img">
+                        <hr>
+                        <h2>📖 Key Phrases for Transport</h2>
+                        <div class="phrases-grid">
+                            ${phrasesList.map((p, idx) => `
+                                <div class="phrase-item">
+                                    <div class="phrase-english">${p}</div>
+                                    <button class="btn-small play-phrase" data-text="${p}" style="margin-top:0.5rem;">🔊 Listen</button>
+                                    <button class="btn-small ai-practice-btn" data-phrase="${p}" data-idx="${idx}">🎙️ Practice with AI</button>
+                                    <div id="ai-practice-feedback-${idx}" class="ai-feedback-box" style="display:none; margin-top:0.5rem;"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <hr>
+                        <button id="submitMissionEval" class="btn">Complete Mission & Get AI Summary</button>
+                        <div id="missionEvalResult"></div>
+                    </div>
+                </div>
+            `;
+            
+            document.querySelectorAll(".play-phrase").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const text = btn.getAttribute("data-text");
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    window.speechSynthesis.cancel();
+                    window.speechSynthesis.speak(utterance);
+                });
+            });
+            
+            phrasesList.forEach((phrase, idx) => {
+                const practiceBtn = document.querySelector(`.ai-practice-btn[data-idx="${idx}"]`);
+                const feedbackDiv = document.getElementById(`ai-practice-feedback-${idx}`);
+                
+                practiceBtn.addEventListener("click", () => {
+                    const recognitionInstance = initAIRecognition();
+                    if (!recognitionInstance) return;
+                    practiceBtn.textContent = "🎙️ Listening...";
+                    practiceBtn.disabled = true;
+                    
+                    recognitionInstance.onresult = (event) => {
+                        const spokenText = event.results[0][0].transcript;
+                        const aiResult = getAIFeedback(spokenText, phrase);
+                        feedbackDiv.innerHTML = `
+                            <div class="ai-badge">🤖 AI Analysis</div>
+                            <strong>You said:</strong> "${spokenText}"<br>
+                            <strong>Expected:</strong> "${phrase}"<br>
+                            <strong>Accuracy:</strong> <span style="color:${aiResult.color}">${aiResult.accuracy}%</span><br>
+                            <strong>Feedback:</strong> ${aiResult.feedback}<br>
+                            <strong>Tourist Tip:</strong> ${aiResult.suggestion}
+                        `;
+                        feedbackDiv.style.display = "block";
+                        practiceBtn.textContent = "🎙️ Practice with AI";
+                        practiceBtn.disabled = false;
+                    };
+                    recognitionInstance.start();
+                });
+            });
+            
+            document.getElementById("submitMissionEval")?.addEventListener("click", () => {
+                document.getElementById("missionEvalResult").innerHTML = `<div class="ai-feedback-box">🎉 Great work! You've learned transport phrases. Now you can ask for directions and buy tickets with confidence!</div>`;
+            });
+            
+        } else {
+            // Other missions (restaurant, hotel, shopping)
+            const phrasesList = m.phrasesList || [];
+            container.innerHTML = `
+                <div class="container">
+                    <button class="back-btn" id="backToMissionsBtn">← Back to Missions</button>
+                    <div class="
